@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valentine Week 💖</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      background: black;
+      color: white;
+      text-align: center;
+    }
+
+    .bg {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #1a0033 0%, #330033 25%, #4d0052 50%, #660066 75%, #800080 100%);
+      z-index: -2;
+      animation: bgGlow 8s infinite alternate;
+    }
+
+    @keyframes bgGlow {
+      0% { filter: brightness(0.9); }
+      100% { filter: brightness(1.2); }
+    }
+
+    .container {
+      width: 90%;
+      max-width: 900px;
+      margin: 50px auto;
+      text-align: center;
+      padding: 25px;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: #ffb3d9;
+      text-shadow: 0px 0px 20px rgba(255, 179, 217, 0.8), 0px 0px 40px rgba(255, 105, 180, 0.5);
+    }
+
+    .event-box {
+      margin-top: 25px;
+      padding: 25px;
+      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(15px);
+      border: 2px solid rgba(255, 182, 193, 0.3);
+      box-shadow: 0px 0px 40px rgba(255, 105, 180, 0.4);
+      transition: all 1s ease;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .event-box.show {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+
+    .event-title {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #ffb3d9;
+      text-shadow: 0px 0px 20px rgba(255, 179, 217, 0.9);
+    }
+
+    .typing-text {
+      font-size: 1.3rem;
+      min-height: 40px;
+      margin-bottom: 15px;
+      color: #ffe6f7;
+      text-shadow: 0px 0px 15px rgba(255, 192, 203, 0.6);
+      font-weight: 500;
+    }
+
+    /* Image display in proposal section */
+    .proposal-image {
+      margin: 15px auto;
+      width: 100%;
+      max-width: 250px;
+      max-height: 250px;
+      object-fit: cover;
+      border-radius: 20px;
+      box-shadow: 0px 0px 40px rgba(255, 105, 180, 0.6);
+      border: 3px solid rgba(255, 182, 193, 0.5);
+      display: none;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 0.6s ease;
+    }
+
+    .proposal-image.show {
+      display: block;
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .btns {
+      margin-top: 25px;
+      margin-bottom: 25px;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      position: relative;
+      height: 120px;
+      width: 100%;
+    }
+
+    button {
+      padding: 15px 40px;
+      border: none;
+      border-radius: 15px;
+      font-size: 1.3rem;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    #yesBtn {
+      background: linear-gradient(135deg, #ff6b9d 0%, #ff1744 100%);
+      color: white;
+      box-shadow: 0px 0px 25px rgba(255, 23, 68, 0.8);
+      position: relative;
+      z-index: 1;
+    }
+
+    #yesBtn:hover {
+      transform: scale(1.15);
+      box-shadow: 0px 0px 35px rgba(255, 23, 68, 1);
+    }
+
+    #noBtn {
+      background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+      color: white;
+      box-shadow: 0px 0px 25px rgba(161, 140, 209, 0.8);
+      position: absolute;
+      z-index: 2;
+    }
+
+    #noBtn:hover {
+      box-shadow: 0px 0px 35px rgba(161, 140, 209, 1);
+    }
+
+    /* POPUP BACKGROUND */
+    .popup-scene {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(26, 0, 51, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 9999;
+      text-align: center;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .popup-box {
+      background: linear-gradient(135deg, rgba(102, 0, 102, 0.95) 0%, rgba(77, 0, 82, 0.95) 100%);
+      padding: 30px;
+      border-radius: 30px;
+      max-width: 600px;
+      margin: 30px auto;
+      box-shadow: 0px 0px 50px rgba(255, 105, 180, 0.6);
+      border: 2px solid rgba(255, 182, 193, 0.4);
+      position: relative;
+      z-index: 10;
+      backdrop-filter: blur(15px);
+    }
+
+    .popup-box h2 {
+      font-size: 2.3rem;
+      color: #ffb3d9;
+      text-shadow: 0px 0px 30px rgba(255, 179, 217, 0.9);
+      margin-bottom: 15px;
+    }
+
+    .popup-box p {
+      font-size: 1.4rem;
+      color: #ffe6f7;
+      text-shadow: 0px 0px 20px rgba(255, 192, 203, 0.7);
+      margin-bottom: 20px;
+    }
+
+    .popup-box img {
+      margin: 15px auto;
+      width: 100%;
+      max-width: 300px;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 20px;
+      box-shadow: 0px 0px 40px rgba(255, 105, 180, 0.6);
+      border: 3px solid rgba(255, 182, 193, 0.5);
+      display: block;
+    }
+
+    /* HEART + ROSE RAIN */
+    .fall-item {
+      position: fixed;
+      top: -20px;
+      font-size: 30px;
+      animation: fall 5s linear forwards;
+      z-index: 10000;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .close-btn {
+      margin-top: 20px;
+      background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+      color: #4d0052;
+      padding: 12px 30px;
+      border-radius: 15px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      font-weight: bold;
+      border: none;
+      box-shadow: 0px 0px 25px rgba(255, 215, 0, 0.7);
+      transition: all 0.3s ease;
+    }
+
+    .close-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0px 0px 35px rgba(255, 215, 0, 0.9);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .event-title {
+        font-size: 1.6rem;
+      }
+      
+      .typing-text {
+        font-size: 1.1rem;
+      }
+      
+      .proposal-image {
+        max-width: 200px;
+        max-height: 200px;
+      }
+      
+      .popup-box img {
+        max-width: 250px;
+        max-height: 250px;
+      }
+      
+      button {
+        padding: 12px 30px;
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="bg"></div>
+
+  <div class="container">
+    <h1>💖 Valentine Week 💖</h1>
+
+    <div class="event-box" id="eventBox">
+      <div class="event-title" id="eventTitle">Loading...</div>
+      <div class="typing-text" id="eventText"></div>
+      
+      <!-- Image display for proposal section - Replace the URL with your image -->
+      <img id="proposalImage" class="proposal-image" 
+           src="images/image1.png"
+           alt="Will you be my Valentine">
+    </div>
+
+    <div class="btns" id="btnSection">
+      <button id="yesBtn">YES 💖</button>
+      <button id="noBtn">NO 💔</button>
+    </div>
+  </div>
+
+  <!-- POPUP -->
+  <div class="popup-scene" id="popupScene">
+    <div class="popup-box">
+      <h2>😍 Yayyy! You said YES 💖</h2>
+      <p>Forever & Always 🌹</p>
+
+      <!-- Replace with your actual image URL -->
+      <img src="images/image2.png" id="popupImage" alt="Valentine Image">
+
+      <br>
+      <button class="close-btn" onclick="closePopup()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const events = [
+      { title: "🌹 Rose Day - 7 Feb", text: "A rose for you because you are special 🌹" },
+      { title: "💌 Propose Day - 8 Feb", text: "If I had one wish... it would be YOU forever 💍" },
+      { title: "🍫 Chocolate Day - 9 Feb", text: "You are sweeter than chocolates 🍫💖" },
+      { title: "🧸 Teddy Day - 10 Feb", text: "A teddy for you because you are adorable 🧸" },
+      { title: "🤝 Promise Day - 11 Feb", text: "I promise I'll always stand with you 💞" },
+      { title: "🤗 Hug Day - 12 Feb", text: "A hug that says... I'm never letting you go 🤗" },
+      { title: "💋 Kiss Day - 13 Feb", text: "A kiss to seal our love forever 💋" },
+      { title: "💖 Valentine's Day - 14 Feb", text: "Today is special because YOU are special 💖" }
+    ];
+
+    let index = 0;
+    const eventBox = document.getElementById("eventBox");
+    const eventTitle = document.getElementById("eventTitle");
+    const eventText = document.getElementById("eventText");
+    const btnSection = document.getElementById("btnSection");
+    const popupScene = document.getElementById("popupScene");
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const proposalImage = document.getElementById("proposalImage");
+
+    function typeText(text, element, speed = 50) {
+      element.innerHTML = "";
+      let i = 0;
+      const interval = setInterval(() => {
+        element.innerHTML += text.charAt(i);
+        i++;
+        if (i >= text.length) clearInterval(interval);
+      }, speed);
+    }
+
+    function showEvent() {
+      if (index < events.length) {
+        eventBox.classList.remove("show");
+
+        setTimeout(() => {
+          eventTitle.innerHTML = events[index].title;
+          typeText(events[index].text, eventText, 40);
+
+          eventBox.classList.add("show");
+          index++;
+
+          setTimeout(showEvent, 3500);
+        }, 800);
+
+      } else {
+        eventTitle.innerHTML = "💍 Will you be my Valentine?";
+        typeText("Please say YES 😍💖", eventText, 60);
+        
+        // Show the proposal image with animation
+        setTimeout(() => {
+          proposalImage.classList.add("show");
+        }, 1000);
+        
+        btnSection.style.display = "flex";
+        
+        // Initialize NO button position
+        setTimeout(() => {
+          setupNoButton();
+        }, 100);
+      }
+    }
+
+    showEvent();
+
+    // Setup NO button with proper movement
+    function setupNoButton() {
+      const containerRect = btnSection.getBoundingClientRect();
+      
+      // Set initial position - to the right of YES button
+      noBtn.style.left = (containerRect.width / 2 + 80) + 'px';
+      noBtn.style.top = '20px';
+      
+      // Move button away from mouse
+      function moveButton(e) {
+        const btnRect = noBtn.getBoundingClientRect();
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        
+        // Calculate button center
+        const btnCenterX = btnRect.left + btnRect.width / 2;
+        const btnCenterY = btnRect.top + btnRect.height / 2;
+        
+        // Calculate distance from mouse to button
+        const distance = Math.sqrt(
+          Math.pow(mouseX - btnCenterX, 2) + 
+          Math.pow(mouseY - btnCenterY, 2)
+        );
+        
+        // If mouse is too close (within 150px), move the button
+        if (distance < 150) {
+          const containerRect = btnSection.getBoundingClientRect();
+          
+          // Calculate new position away from mouse
+          let newX = Math.random() * (containerRect.width - btnRect.width);
+          let newY = Math.random() * (containerRect.height - btnRect.height);
+          
+          // Ensure button stays within container bounds
+          newX = Math.max(0, Math.min(newX, containerRect.width - btnRect.width));
+          newY = Math.max(0, Math.min(newY, containerRect.height - btnRect.height));
+          
+          noBtn.style.left = newX + 'px';
+          noBtn.style.top = newY + 'px';
+        }
+      }
+      
+      // Add event listener to detect mouse movement
+      noBtn.addEventListener('mouseenter', moveButton);
+      noBtn.addEventListener('mousemove', moveButton);
+    }
+
+    // YES click
+    yesBtn.addEventListener("click", () => {
+      popupScene.style.display = "block";
+      startHeartsAndRoses();
+    });
+
+    function closePopup() {
+      popupScene.style.display = "none";
+    }
+
+    // HEARTS + ROSES RAIN EFFECT (IN POPUP)
+    function startHeartsAndRoses() {
+      setInterval(() => {
+        const item = document.createElement("div");
+        item.classList.add("fall-item");
+
+        const icons = ["💖", "❤️", "🌹", "💘", "💝", "💗","💕"];
+        item.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+
+        item.style.left = Math.random() * window.innerWidth + "px";
+        item.style.fontSize = Math.random() * 40 + 25 + "px";
+
+        popupScene.appendChild(item);
+
+        setTimeout(() => item.remove(), 5000);
+      }, 25);
+    }
+  </script>
+
+</body>
+</html>
